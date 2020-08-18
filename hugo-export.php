@@ -221,6 +221,14 @@ class Hugo_Export
     function convert_content($post)
     {
         $content = apply_filters('the_content', $post->post_content);
+        
+        $markdown_content = $post->post_content_filtered;
+        $markdown_this_post = get_metadata( 'post', $post->ID, '_is_githuber_markdown_enabled', true);
+        if ('yes' == $markdown_this_post) 
+        {
+            return $markdown_content;      
+        }
+
         $converter = new Markdownify\ConverterExtra;
         $markdown = $converter->parseString($content);
 
